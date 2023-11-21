@@ -4,24 +4,22 @@ import styles from "../styles/SearchBar.module.css";
 const SearchBar = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleSearch = (e) => {
-    e.preventDefault();
+  const handleSearch = () => {
     onSearch(searchTerm);
   };
 
   return (
-    <form className={styles.searchBarContainer} onSubmit={handleSearch}>
+    <div className={styles.searchBarContainer}>
       <input
         type="text"
         placeholder="Search questions..."
         className={styles.searchInput}
-        value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <button type="submit" className={styles.searchButton}>
+      <button className={styles.searchButton} onClick={handleSearch}>
         Search
       </button>
-    </form>
+    </div>
   );
 };
 

@@ -1,26 +1,22 @@
 .categoryButton {
-  padding: 10px 15px; /* Increased padding */
-  margin: 5px; /* Space between buttons */
-  font-size: 16px; /* Larger font size */
-  border: 1px solid #d1d5db; /* gray-300 */
-  background-color: #f9fafb; /* gray-50 */
-  color: #1f2937; /* gray-800 */
-  border-radius: 8px; /* Rounded corners */
+  font-size: 14px;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 20px;
+  background-color: #fff;
+  border: none;
+  color: #0056b3;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap; /* Keep text on one line */
-  overflow: hidden;
-  text-overflow: ellipsis;
+  transition: background-color 300ms, transform 300ms;
 }
 
-.categoryButton:hover,
-.active {
-  background-color: #60a5fa; /* blue-400 */
-  color: white;
-  border-color: #3b82f6; /* blue-500 */
+.categoryButton:hover {
+  background-color: #bbdefb;
+  transform: translateY(-2px);
 }
 
 .active {
-  background-color: #2563eb; /* blue-600 */
-  border-color: #2563eb; /* blue-600 */
+  background-color: #0056b3;
+  color: #fff;
 }

@@ -9,6 +9,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../components/ui/Accordion";
+import styles from "../styles/Home.module.css";
 import "../app/globals.css";
 
 export default function Home() {
@@ -29,7 +30,7 @@ export default function Home() {
 
   const faqs = [
     {
-      question: "Is it accessible?",
+      question: "Question No. 1 is what?",
       answer:
         "1.Yes. It adheres to the WAI-ARIA design pattern.\n .Yes. It adheres to the WAI-ARIA design pattern. \n 3.Yes. It adheres to the WAI-ARIA design pattern.Yes. It adheres to the WAI-ARIA design pattern.",
       category: "neonatal",
@@ -117,35 +118,33 @@ export default function Home() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header
-        logoSrc={logo}
-        title="HEALTH CHAT"
-        subtitle="Frequently Asked Questions"
-      />
-      <div className="max-w-2xl mx-auto p-4">
+    <div className={styles.home}>
+      <div className={styles.fixedHeader}>
+        <Header
+          logoSrc={logo}
+          title="HEALTH CHAT"
+          subtitle="Frequently Asked Questions"
+        />
         <SearchBar onSearch={setSearchTerm} />
-        <div className="bg-white rounded-lg shadow mb-4">
-          <Categories
-            categories={categories}
-            activeCategory={activeCategory}
-            onCategoryClick={(category) => setActiveCategory(category.id)}
-          />
-        </div>
-        <div className="faq-container">
-          <Accordion type="single" collapsible>
-            {filteredFaqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="text-gray-800">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="bg-white p-4 rounded-lg shadow">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
+        <Categories
+          categories={categories}
+          activeCategory={activeCategory}
+          onCategoryClick={(category) => setActiveCategory(category.id)}
+        />
+      </div>
+      <div className={styles.faqContainer}>
+        <Accordion type="single" collapsible>
+          {filteredFaqs.map((faq, index) => (
+            <AccordionItem key={index} value={`item-${index}`}>
+              <AccordionTrigger className="text-gray-800">
+                {faq.question}
+              </AccordionTrigger>
+              <AccordionContent className="bg-white p-4 rounded-lg shadow">
+                {faq.answer}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
     </div>
   );

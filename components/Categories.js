@@ -3,7 +3,7 @@ import styles from "../styles/Categories.module.css";
 
 const Categories = ({ categories, activeCategory, onCategoryClick }) => {
   return (
-    <div className={styles["categories-container"]}>
+    <div className={styles.categoriesContainer}>
       {categories.map((category) => (
         <CategoryButton
           key={category.id}
