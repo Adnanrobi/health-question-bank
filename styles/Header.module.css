@@ -1,0 +1,16 @@
+.header-container {
+  background-color: #fff;
+  text-align: center;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container {
+  margin-bottom: 10px;
+}
+
+.title {
+  color: #333;
+  font-size: 24px;
+  margin: 0;
+}
