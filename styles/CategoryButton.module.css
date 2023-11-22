@@ -1,22 +1,35 @@
 .categoryButton {
-  font-size: 14px;
-  padding: 10px 20px;
-  margin: 5px;
-  border-radius: 20px;
+  font-size: 0.875rem;
+  padding: 0.625rem 1.25rem;
+  margin: 0.3125rem;
+  border-radius: 0.5rem;
   background-color: #fff;
   border: none;
-  color: #0056b3;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #3a97d9;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: background-color 300ms, transform 300ms;
+  min-width: 7.5rem;
+  max-width: 15rem;
+  text-align: center;
 }
 
 .categoryButton:hover {
   background-color: #bbdefb;
-  transform: translateY(-2px);
+  transform: translateY(-0.125rem);
 }
 
 .active {
-  background-color: #0056b3;
+  background-color: #3a97d9;
   color: #fff;
+}
+
+@media screen and (max-width: 768px) {
+  .categoryButton {
+    font-size: 0.75rem;
+    padding: 0.3125rem 0.5rem;
+    min-width: 0;
+    flex-grow: 1;
+    max-width: calc(50% - 0.375rem);
+  }
 }

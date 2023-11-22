@@ -7,7 +7,7 @@ const Header = ({ logoSrc, title, subtitle }) => {
       <Image
         src={logoSrc}
         alt="Logo"
-        width={200}
+        width={140}
         height={50}
         layout="fixed"
         className={styles.logo}

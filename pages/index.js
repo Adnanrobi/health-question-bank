@@ -20,12 +20,12 @@ export default function Home() {
     { id: "neonatal3", name: "Neonatal Health Care3" },
     { id: "neonatal4", name: "Neonatal Health Care4" },
     { id: "neonatal5", name: "Neonatal Health Care5" },
-    { id: "neonatal6", name: "Neonatal Health Care" },
-    { id: "neonatal7", name: "Neonatal Health Care1" },
-    { id: "neonatal8", name: "Neonatal Health Care2" },
-    { id: "neonatal9", name: "Neonatal Health Care3" },
-    { id: "neonatal10", name: "Neonatal Health Care4" },
-    { id: "neonatal11", name: "Neonatal Health Care5" },
+    { id: "neonatal6", name: "Neonatal Health Care6" },
+    { id: "neonatal7", name: "Neonatal Health Care7" },
+    { id: "neonatal8", name: "Neonatal Health Care8" },
+    { id: "neonatal9", name: "Neonatal Health Care9" },
+    { id: "neonatal10", name: "Neonatal Health Care10" },
+    { id: "neonatal11", name: "Neonatal Health Care11" },
   ];
 
   const faqs = [
@@ -135,11 +135,19 @@ export default function Home() {
       <div className={styles.faqContainer}>
         <Accordion type="single" collapsible>
           {filteredFaqs.map((faq, index) => (
-            <AccordionItem key={index} value={`item-${index}`}>
-              <AccordionTrigger className="text-gray-800">
+            <AccordionItem
+              key={index}
+              value={`item-${index}`}
+              className={`${styles.faqItem} ${styles.accordionCard} ${styles.accordionItem}`}
+            >
+              <AccordionTrigger
+                className={`${styles.faqQuestion} ${styles.accordionTrigger}`}
+              >
                 {faq.question}
               </AccordionTrigger>
-              <AccordionContent className="bg-white p-4 rounded-lg shadow">
+              <AccordionContent
+                className={`${styles.faqAnswer} ${styles.accordionContent}`}
+              >
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>
