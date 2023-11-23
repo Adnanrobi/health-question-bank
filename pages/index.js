@@ -12,109 +12,18 @@ import {
 import styles from "../styles/Home.module.css";
 import "../app/globals.css";
 
-export default function Home() {
-  const categories = [
-    { id: "neonatal", name: "Neonatal Health Care" },
-    { id: "neonatal1", name: "Neonatal Health Care1" },
-    { id: "neonatal2", name: "Neonatal Health Care2" },
-    { id: "neonatal3", name: "Neonatal Health Care3" },
-    { id: "neonatal4", name: "Neonatal Health Care4" },
-    { id: "neonatal5", name: "Neonatal Health Care5" },
-    { id: "neonatal6", name: "Neonatal Health Care6" },
-    { id: "neonatal7", name: "Neonatal Health Care7" },
-    { id: "neonatal8", name: "Neonatal Health Care8" },
-    { id: "neonatal9", name: "Neonatal Health Care9" },
-    { id: "neonatal10", name: "Neonatal Health Care10" },
-    { id: "neonatal11", name: "Neonatal Health Care11" },
-  ];
-
-  const faqs = [
-    {
-      question: "Question No. 1 is what?",
-      answer:
-        "1.Yes. It adheres to the WAI-ARIA design pattern.\n .Yes. It adheres to the WAI-ARIA design pattern. \n 3.Yes. It adheres to the WAI-ARIA design pattern.Yes. It adheres to the WAI-ARIA design pattern.",
-      category: "neonatal",
-    },
-    {
-      question: "Is it accessible?",
-      answer:
-        "Yes. It adheres to the WAI-ARIA design pattern.Yes. It adheres to the WAI-ARIA design pattern.Yes. It adheres to the WAI-ARIA design pattern.Yes. It adheres to the WAI-ARIA design pattern.",
-      category: "neonatal1",
-    },
-    {
-      question: "Is it accessible?",
-      answer: "Yes. It adheres to the WAI-ARIA design pattern.",
-      category: "neonatal2",
-    },
-    {
-      question: "Is it accessible?",
-      answer: "Yes. It adheres to the WAI-ARIA design pattern.",
-      category: "neonatal",
-    },
-    {
-      question: "Is it accessible?",
-      answer: "Yes. It adheres to the WAI-ARIA design pattern.",
-      category: "neonatal",
-    },
-    {
-      question: "Is it accessible?",
-      answer: "Yes. It adheres to the WAI-ARIA design pattern.",
-      category: "neonatal",
-    },
-    {
-      question: "Is it accessible?",
-      answer: "Yes. It adheres to the WAI-ARIA design pattern.",
-      category: "neonatal",
-    },
-    {
-      question: "Is it accessible?",
-      answer: "Yes. It adheres to the WAI-ARIA design pattern.",
-      category: "neonatal",
-    },
-    {
-      question: "Is it accessible?",
-      answer: "Yes. It adheres to the WAI-ARIA design pattern.",
-      category: "neonatal",
-    },
-    {
-      question: "Is it accessible?",
-      answer: "Yes. It adheres to the WAI-ARIA design pattern.",
-      category: "neonatal",
-    },
-    {
-      question: "Is it accessible?",
-      answer: "Yes. It adheres to the WAI-ARIA design pattern.",
-      category: "neonatal",
-    },
-    {
-      question: "Is it accessible?",
-      answer: "Yes. It adheres to the WAI-ARIA design pattern.",
-      category: "neonatal",
-    },
-    {
-      question: "Is it accessible?",
-      answer: "Yes. It adheres to the WAI-ARIA design pattern.",
-      category: "neonatal",
-    },
-    {
-      question: "Is it accessible?",
-      answer: "Yes. It adheres to the WAI-ARIA design pattern.",
-      category: "neonatal",
-    },
-    {
-      question: "Is it accessible?",
-      answer: "Yes. It adheres to the WAI-ARIA design pattern.",
-      category: "neonatal",
-    },
-  ];
-
-  const [activeCategory, setActiveCategory] = useState(categories[0].id);
+export default function Home({ categories, posts }) {
+  // Use the first category as the default if available
+  const [activeCategory, setActiveCategory] = useState(
+    categories?.[0]?.id || ""
+  );
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredFaqs = faqs.filter(
-    (faq) =>
-      faq.category === activeCategory &&
-      faq.question.toLowerCase().includes(searchTerm.toLowerCase())
+  // Filter posts by category and search term
+  const filteredFaqs = posts.filter(
+    (post) =>
+      post.categories.includes(parseInt(activeCategory)) &&
+      post.title.rendered.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -126,34 +35,88 @@ export default function Home() {
           subtitle="Frequently Asked Questions"
         />
         <SearchBar onSearch={setSearchTerm} />
-        <Categories
-          categories={categories}
-          activeCategory={activeCategory}
-          onCategoryClick={(category) => setActiveCategory(category.id)}
-        />
+        {categories.length > 0 && (
+          <Categories
+            categories={categories}
+            activeCategory={activeCategory}
+            onCategoryClick={(category) => setActiveCategory(category.id)}
+          />
+        )}
       </div>
       <div className={styles.faqContainer}>
         <Accordion type="single" collapsible>
-          {filteredFaqs.map((faq, index) => (
-            <AccordionItem
-              key={index}
-              value={`item-${index}`}
-              className={`${styles.faqItem} ${styles.accordionCard} ${styles.accordionItem}`}
-            >
-              <AccordionTrigger
-                className={`${styles.faqQuestion} ${styles.accordionTrigger}`}
+          {filteredFaqs.length > 0 ? (
+            filteredFaqs.map((faq, index) => (
+              <AccordionItem
+                key={faq.id}
+                value={`item-${index}`}
+                className={`${styles.faqItem} ${styles.accordionCard} ${styles.accordionItem}`}
               >
-                {faq.question}
-              </AccordionTrigger>
-              <AccordionContent
-                className={`${styles.faqAnswer} ${styles.accordionContent}`}
-              >
-                {faq.answer}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
+                <AccordionTrigger
+                  className={`${styles.faqQuestion} ${styles.accordionTrigger}`}
+                >
+                  {faq.title.rendered}
+                </AccordionTrigger>
+                <AccordionContent
+                  className={`${styles.faqAnswer} ${styles.accordionContent}`}
+                >
+                  <div
+                    dangerouslySetInnerHTML={{ __html: faq.content.rendered }}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+            ))
+          ) : (
+            <p>No FAQs available.</p>
+          )}
         </Accordion>
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  try {
+    // Fetch categories
+    const categoryRes = await fetch(
+      `http://localhost/jhuccp/Wordpress/wp-json/wp/v2/categories`
+    );
+    if (!categoryRes.ok) {
+      throw new Error(
+        `Failed to fetch categories, status: ${categoryRes.status}`
+      );
+    }
+    const categories = await categoryRes.json();
+
+    // Fetch up to 100 posts
+    const postsRes = await fetch(
+      `http://localhost/jhuccp/Wordpress/wp-json/wp/v2/posts?per_page=100`
+    );
+    if (!postsRes.ok) {
+      throw new Error(`Failed to fetch posts, status: ${postsRes.status}`);
+    }
+    const posts = await postsRes.json();
+
+    // Ensure that categories array is not empty
+    if (categories.length === 0) {
+      throw new Error("No categories found");
+    }
+
+    return {
+      props: {
+        categories,
+        posts,
+      },
+    };
+  } catch (error) {
+    console.error("getServerSideProps error:", error.message);
+
+    // Return empty arrays if there was an error fetching data
+    return {
+      props: {
+        categories: [],
+        posts: [],
+      },
+    };
+  }
 }
