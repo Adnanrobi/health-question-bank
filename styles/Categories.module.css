@@ -23,6 +23,6 @@
   .categoriesContainer {
     padding: 0.3125rem;
     gap: 0.1875rem;
-    max-height: auto;
+    min-height: 13.5rem;
   }
 }

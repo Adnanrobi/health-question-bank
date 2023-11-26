@@ -12,14 +12,7 @@ import {
 import styles from "../styles/Home.module.css";
 import "../app/globals.css";
 
-const highlightSearchTerm = (text, searchTerm) => {
-  if (!searchTerm.trim()) return text;
-  const regex = new RegExp(`(${searchTerm})`, "gi");
-  return text.replace(regex, `<span class="highlight">$1</span>`);
-};
-
 export default function Home({ categories, posts }) {
-  // Filter out the "Uncategorized" category
   const filteredCategories = categories.filter(
     (category) => category.name !== "Uncategorized"
   );
@@ -68,24 +61,14 @@ export default function Home({ categories, posts }) {
                   className={`${styles.faqQuestion} ${styles.accordionTrigger}`}
                 >
                   <div
-                    dangerouslySetInnerHTML={{
-                      __html: highlightSearchTerm(
-                        faq.title.rendered,
-                        searchTerm
-                      ),
-                    }}
+                    dangerouslySetInnerHTML={{ __html: faq.title.rendered }}
                   />
                 </AccordionTrigger>
                 <AccordionContent
                   className={`${styles.faqAnswer} ${styles.accordionContent}`}
                 >
                   <div
-                    dangerouslySetInnerHTML={{
-                      __html: highlightSearchTerm(
-                        faq.content.rendered,
-                        searchTerm
-                      ),
-                    }}
+                    dangerouslySetInnerHTML={{ __html: faq.content.rendered }}
                   />
                 </AccordionContent>
               </AccordionItem>
