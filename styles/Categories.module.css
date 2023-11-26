@@ -2,10 +2,9 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding-top: 0.65rem;
-  padding-bottom: 0.65rem;
-  padding-left: 25rem;
-  padding-right: 25rem;
+  padding: 0.65rem;
+  padding-left: 18rem;
+  padding-right: 18rem;
   gap: 0.625rem;
   background-color: #e3f2fd;
   border-radius: 0.625rem;
@@ -24,6 +23,6 @@
   .categoriesContainer {
     padding: 0.3125rem;
     gap: 0.1875rem;
-    max-height: calc(2.6rem * 4);
+    max-height: auto;
   }
 }

@@ -4,8 +4,22 @@ import styles from "../styles/SearchBar.module.css";
 const SearchBar = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    if (value === "") {
+      onSearch("");
+    }
+  };
+
   const handleSearch = () => {
     onSearch(searchTerm);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
   };
 
   return (
@@ -14,7 +28,9 @@ const SearchBar = ({ onSearch }) => {
         type="text"
         placeholder="Search questions..."
         className={styles.searchInput}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        value={searchTerm}
+        onChange={handleSearchChange}
+        onKeyPress={handleKeyPress}
       />
       <button className={styles.searchButton} onClick={handleSearch}>
         Search

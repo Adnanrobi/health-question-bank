@@ -12,18 +12,28 @@ import {
 import styles from "../styles/Home.module.css";
 import "../app/globals.css";
 
+const highlightSearchTerm = (text, searchTerm) => {
+  if (!searchTerm.trim()) return text;
+  const regex = new RegExp(`(${searchTerm})`, "gi");
+  return text.replace(regex, `<span class="highlight">$1</span>`);
+};
+
 export default function Home({ categories, posts }) {
-  // Use the first category as the default if available
+  // Filter out the "Uncategorized" category
+  const filteredCategories = categories.filter(
+    (category) => category.name !== "Uncategorized"
+  );
+
   const [activeCategory, setActiveCategory] = useState(
-    categories?.[0]?.id || ""
+    filteredCategories?.[0]?.id || ""
   );
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Filter posts by category and search term
   const filteredFaqs = posts.filter(
     (post) =>
       post.categories.includes(parseInt(activeCategory)) &&
-      post.title.rendered.toLowerCase().includes(searchTerm.toLowerCase())
+      (post.title.rendered.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        post.content.rendered.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
@@ -34,13 +44,15 @@ export default function Home({ categories, posts }) {
           title="HEALTH CHAT"
           subtitle="Frequently Asked Questions"
         />
-        <SearchBar onSearch={setSearchTerm} />
-        {categories.length > 0 && (
+        <SearchBar onSearch={(term) => setSearchTerm(term)} />
+        {filteredCategories.length > 0 ? (
           <Categories
-            categories={categories}
+            categories={filteredCategories}
             activeCategory={activeCategory}
             onCategoryClick={(category) => setActiveCategory(category.id)}
           />
+        ) : (
+          <p>No categories available.</p>
         )}
       </div>
       <div className={styles.faqContainer}>
@@ -55,13 +67,25 @@ export default function Home({ categories, posts }) {
                 <AccordionTrigger
                   className={`${styles.faqQuestion} ${styles.accordionTrigger}`}
                 >
-                  {faq.title.rendered}
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: highlightSearchTerm(
+                        faq.title.rendered,
+                        searchTerm
+                      ),
+                    }}
+                  />
                 </AccordionTrigger>
                 <AccordionContent
                   className={`${styles.faqAnswer} ${styles.accordionContent}`}
                 >
                   <div
-                    dangerouslySetInnerHTML={{ __html: faq.content.rendered }}
+                    dangerouslySetInnerHTML={{
+                      __html: highlightSearchTerm(
+                        faq.content.rendered,
+                        searchTerm
+                      ),
+                    }}
                   />
                 </AccordionContent>
               </AccordionItem>
@@ -77,9 +101,8 @@ export default function Home({ categories, posts }) {
 
 export async function getServerSideProps() {
   try {
-    // Fetch categories
     const categoryRes = await fetch(
-      `http://localhost/jhuccp/Wordpress/wp-json/wp/v2/categories`
+      "http://localhost/jhuccp/Wordpress/wp-json/wp/v2/categories"
     );
     if (!categoryRes.ok) {
       throw new Error(
@@ -88,19 +111,13 @@ export async function getServerSideProps() {
     }
     const categories = await categoryRes.json();
 
-    // Fetch up to 100 posts
     const postsRes = await fetch(
-      `http://localhost/jhuccp/Wordpress/wp-json/wp/v2/posts?per_page=100`
+      "http://localhost/jhuccp/Wordpress/wp-json/wp/v2/posts?per_page=100"
     );
     if (!postsRes.ok) {
       throw new Error(`Failed to fetch posts, status: ${postsRes.status}`);
     }
     const posts = await postsRes.json();
-
-    // Ensure that categories array is not empty
-    if (categories.length === 0) {
-      throw new Error("No categories found");
-    }
 
     return {
       props: {
@@ -109,9 +126,8 @@ export async function getServerSideProps() {
       },
     };
   } catch (error) {
-    console.error("getServerSideProps error:", error.message);
+    console.error("Error in getServerSideProps:", error);
 
-    // Return empty arrays if there was an error fetching data
     return {
       props: {
         categories: [],
